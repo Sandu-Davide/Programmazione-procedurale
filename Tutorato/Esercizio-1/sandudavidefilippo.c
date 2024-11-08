@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <math.h>
 double a,b,c;
-double soluzioni[2]; //Array per memorizzare le possibili soluzioni, il massimo numero di soluzioni che potrebbe verificarsi è 2.
+double soluzioni[2]; //Array per memorizzare le possibili soluzioni, il massimo numero di soluzioni che potrebbe verificarsi e 2.
 
 void controlloCasi(double a, double b, double c); //Verifica tutti i casi possibili previsti dalla traccia e mostra anche la/e soluzione/i dell'equazione.
 double calcoloDelta(double a,double b, double c); //Calcolo del delta
