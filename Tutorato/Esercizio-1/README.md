@@ -9,7 +9,7 @@ data, ove esse esistano. Si identifichino tutti i casi particolari <br><b>(a == 
 <b>∆=b2÷4ac</b>, <b>x=(−b ±√∆)÷2a</b>. <br><br>
 Includere la libreria math.h per poter utilizzare la funzione radice quadrata sqrt(). Quando si
 compila con gcc aggiungere “-lm” per linkare la libreria matematica (esempio, gcc -o programma
-programma.c -lm)
+programma.c -lm)</p>
 
 <ul>
   <li>Se a == 0 allora e’ una equazione di primo grado.</li>
@@ -23,5 +23,5 @@ programma.c -lm)
   <li>Se ∆ > 0 esistono due soluzioni.</li>
   <li>Se ∆ < 0 non esistono soluzioni in campo reale (qui basta solo stampare questo messaggio)</li>
 </ul>
-</p>
+
 
