@@ -5,9 +5,9 @@ double a,b,c;
 typedef enum tipiTriangolo{EQUILATERO, ISOSCELE, SCALENO, RETTANGOLO, NESSUNO, NONRETTANGOLO} TipiTriangolo;
 typedef enum booleano {FALSO,VERO} Boolean;
 
-Boolean controlloValidita(double a, double b, double c);
-TipiTriangolo definizioneTriangolo(double a, double b, double c);
-TipiTriangolo controlloRettangolo(double a, double b, double c);
+Boolean controlloValidita(double a, double b, double c); //controllera' i valori dei lati del triangolo per valutare se e' possibile rappresentare un triangolo.
+TipiTriangolo definizioneTriangolo(double a, double b, double c); //verifica della tipologia del triangolo EQUILATERO, ISOSCELE, SCALENO
+TipiTriangolo controlloRettangolo(double a, double b, double c); //verifica del triangolo: e' anche rettangolo?
 
 int main(){
     Boolean valoreControllo;
@@ -57,6 +57,11 @@ int main(){
 
     return 0;
 }
+
+/*per rappresentare correttamente un triangolo bisogna verificare se: 
+    tutti i lati devono essere positivi
+    ogni lato deve essere minore della somma degli altri due
+    ogni lato deve essere maggiore della differenza degli altri due*/
 
 Boolean controlloValidita(double a, double b, double c){
     puts("--------------------------------------------------------------");
