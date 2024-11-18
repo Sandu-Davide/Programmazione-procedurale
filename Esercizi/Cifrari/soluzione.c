@@ -4,22 +4,22 @@ void letterLower(char stringa[], int index); //Controlla tutti i caratteri prese
 void isLetter(char stringa[], int index); //Controlla tutti i caratteri presenti in stringa[] e' toglie tutti i caratteri diversi dalle lettere minuscole
 int selectionCifrario(); //Permette l'inserimento di un singolo valore tra (V,v | P,p) e' ritorna il valore della selezione
 
-typedef enum {A=61,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z} alphabet;
 typedef enum{Vigenere=1,Playfair} typeCifrario;
 
 void cifrarioVigenere(char stringa[], int index);
 void cifrarioPlayfair(char stringa[], int index);
 
-void deleteInput(char stringa[], int sizeLength, const int lengthOfString); //Elimina i caratteri non utilizzati che rimangono nella memoria dell'input
+void deleteInput(int sizeLength, const int lengthOfString); //Elimina i caratteri non utilizzati che rimangono nella memoria dell'input
 int lengthString(const char string[]); //Controlla la lunghezza effettiva della stringa dopo la lavorazione
 void inputString(char stringa[], int index); //Permette l'inserimento di caratteri grazie alla funzione fgets, controlla la sua lunghezza effettiva e' invoca eliminazioneInput
 
 void puliziaScan(); //Pulisce la memoria dell'input se presente un '\n'
 
-const int lastIndex = 1;
+const int lastIndex = 1; //Serve per aumentare la dimensione dei array di uno per includere esattamente il num. di caratteri voluti piu' '\n'
 
 void repeatKey(char key[], int lengthKey, char newKey[], int lengthNewKey); //Ripete la chiave inserita fino alla lunghezza effettiva del plaintext
 void cypherOfText(char stringa[],char key[], char cypherText[], int lengthCypher); //Cifra il il testo utilizzando il cifrario di Vigenere
+
 
 int main(){
     puts("-------------------------------------------------------------");
@@ -111,6 +111,7 @@ int selectionCifrario(){
         puts("ERRORE: non hai inserito un carattere valido!");
         puts("---------------------------------------------");
         option=0;
+        deleteInput(1,1); //Mi assicuro di togliere dal buffer input qualsiasi altro carattere che potrebbe dare errori
     }
     }while (option==0);
 
@@ -154,9 +155,48 @@ void cifrarioPlayfair(char stringa[], int index){
     puts("-------------------------------------------------------------");
     puts("-- CIFRARIO DI PLAYFAIR");
     puts("-------------------------------------------------------------");
+
+    char cypherKey[5][5]={
+        {'e','s','m','p','i'},
+        {'o','l','a','y','f'},
+        {'r','b','c','d','g'},
+        {'h','k','n','q','t'},
+        {'u','v','w','x','z'},
+    };
+
+    //lenghtOfStringa conterra' la quantita di digrafi da creare, se il numero e' dispari allora aggiungo 1 così da includere tutte le coppie possibili 
+    int lenghtOfStringa = (lengthString(stringa)/2)%2==0 ? lengthString(stringa)/2 : (lengthString(stringa)/2)+1;
+    char digrafo[lenghtOfStringa][2]; //il valore 2 indica la quantita' di caratteri nel digrafo
+
+    int j = 0;
+    /*  REGOLE DIGRAFI:
+        Se entrambe le lettere sono le stesse nel digrafo (o se la lettera è da sola),
+        si aggiunga un "x" dopo la prima lettera. Altrimenti lascia la coppia cosi' com'e'.
+        Cifrare la nuova coppia di lettere e continuare.*/
+    for (int i = 0; i < lengthString(stringa); i++) {
+        digrafo[j][0] = stringa[i];
+
+        if (i + 1 < lengthString(stringa)) {
+            if (stringa[i] == stringa[i + 1]) {
+                //non ci possono essere due lettere uguali, quindi aggiungo un 'x' dopo la prima lettera
+                digrafo[j][1] = 'x';
+            } else {
+                digrafo[j][1] = stringa[i + 1];
+                i++; // il prossimo carattere è incluso nel digrafo quindi vado al prossimo
+            }
+        } else {
+            digrafo[j][1] = 'x'; //E presente un solo carattere quindi il prossimo sara' 'x'
+        }
+
+        printf("%c%c ", digrafo[j][0], digrafo[j][1]); //(debug)
+        j++;
+    }
+    
 }
 
-void deleteInput(char stringa[], int sizeLength, const int lengthOfString){
+
+
+void deleteInput(int sizeLength, const int lengthOfString){
     /*usiamo questa funzione quando abbiamo un problema con il buffer di lettura, se usiamo la funzione fgets e' inseriamo un numero
       di caratteri superiori alla capienza dell'array utilizzando successivamente la funzione scanf esso non ci permetteva di inserire
       tramite input qualsiasi tipo di carattere poiche' prendeva in considerazione i caratteri in eccesso dal fgets*/
@@ -181,7 +221,7 @@ void inputString(char stringa[], int index){
     fgets(stringa, index, stdin);
     int lengthOfStringa = lengthString(stringa);
 
-    deleteInput(stringa, index, lengthOfStringa);
+    deleteInput(index, lengthOfStringa);
 }
 
 void puliziaScan(){
